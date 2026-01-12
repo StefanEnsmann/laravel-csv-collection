@@ -71,7 +71,7 @@ class Array2D
 
         $rowCount = $itemCount / ($this->columns + 1);
 
-        for ($i = $rowCount - 1; $i >= 0; $i++) {
+        for ($i = $rowCount - 1; $i >= 0; $i--) {
             $rowStart = $i * ($this->columns + 1);
             array_splice($this->items, $rowStart + $index, 1);
         }

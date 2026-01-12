@@ -28,7 +28,13 @@ class CsvCollection extends Array2D
 
     private static function isMap(array $array): bool
     {
-        return array_all(array_keys($array), fn (mixed $key) => is_string($key));
+        foreach ($array as $key => $_) {
+            if (!is_string($key)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static function read(
@@ -106,7 +112,7 @@ class CsvCollection extends Array2D
         return !is_null($this->header);
     }
 
-    private function keyToIndex(string $key): int
+    private function keyToIndex(int|string $key): int
     {
         if (is_int($key)) {
             return $key;
@@ -196,7 +202,7 @@ class CsvCollection extends Array2D
             return;
         }
 
-        parent::swapRows($a, $b);
+        parent::swapColumns($a, $b);
 
         $tmp = $this->header[$a];
         $this->header[$a] = $this->header[$b];
