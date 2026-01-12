@@ -1,0 +1,19 @@
+{
+    "name": "stefanensmann/laravel-csv-collection",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "StefanEnsmann\\Laravel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Stefan Ensmann",
+            "email": "stefan@ensmann.de"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^3.11"
+    }
+}
