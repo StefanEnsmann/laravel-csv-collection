@@ -5,6 +5,7 @@ namespace StefanEnsmann\Laravel;
 use InvalidArgumentException;
 use StefanEnsmann\Laravel\CsvCollection\Array2D;
 use StefanEnsmann\Laravel\CsvCollection\Exceptions\InvalidCsvFormatException;
+use StefanEnsmann\Laravel\CsvCollection\RowAccessor;
 use StefanEnsmann\Laravel\CsvCollection\Schema\AbstractEntry;
 use StefanEnsmann\Laravel\CsvCollection\Schema\StringEntry;
 
@@ -112,7 +113,7 @@ class CsvCollection extends Array2D
         return !is_null($this->header);
     }
 
-    private function keyToIndex(int|string $key): int
+    public function keyToIndex(int|string $key): int
     {
         if (is_int($key)) {
             return $key;
@@ -217,6 +218,11 @@ class CsvCollection extends Array2D
     public function addRow(array $row): void
     {
         parent::addRow($this->unpackRow($row));
+    }
+
+    public function getRow(int $row): RowAccessor
+    {
+        return new RowAccessor($this, $row);
     }
 
     public function get(int $row, int|string $column): mixed

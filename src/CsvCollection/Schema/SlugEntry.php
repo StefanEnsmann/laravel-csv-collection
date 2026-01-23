@@ -4,12 +4,12 @@ namespace StefanEnsmann\Laravel\CsvCollection\Schema;
 
 use StefanEnsmann\Laravel\CsvCollection\Exceptions\SchemaValidationFailedException;
 
-class UuidEntry extends AbstractEntry
+class SlugEntry extends AbstractEntry
 {
     public function parse(string $value): string
     {
         if (!$this->isValid($value)) {
-            throw new SchemaValidationFailedException('"' . $value . '" is not a valid UUID');
+            throw new SchemaValidationFailedException('"' . $value . '" is not a valid slug');
         }
 
         return $value;
@@ -17,7 +17,7 @@ class UuidEntry extends AbstractEntry
 
     protected function isValid(string $value): bool
     {
-        return preg_match('/^[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}$/D', $value) > 0;
+        return preg_match('/^[a-z0-9-]+$/D', $value) > 0;
     }
 
     public function stringify($entry)

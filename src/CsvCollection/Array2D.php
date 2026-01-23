@@ -3,16 +3,51 @@
 namespace StefanEnsmann\Laravel\CsvCollection;
 
 use InvalidArgumentException;
+use Iterator;
 use OutOfBoundsException;
 use RangeException;
+use StefanEnsmann\Laravel\CsvCollection\Array2D\ColumnAccessor;
+use StefanEnsmann\Laravel\CsvCollection\Array2D\RowAccessor;
 
-class Array2D
+class Array2D implements Iterator
 {
     private array $items = [];
+    private int $currentIteratorRow = 0;
 
     public function __construct(
         private int $columns = 0
     ) {}
+
+    /**
+     * @return RowAccessor The current row
+     */
+    public function current(): mixed
+    {
+        return $this->valid() ? $this->getRow($this->currentIteratorRow) : null;
+    }
+
+    /**
+     * @return int The current row index
+     */
+    public function key(): mixed
+    {
+        return $this->currentIteratorRow;
+    }
+
+    public function next(): void
+    {
+        $this->currentIteratorRow++;
+    }
+
+    public function rewind(): void
+    {
+        $this->currentIteratorRow = 0;
+    }
+
+    public function valid(): bool
+    {
+        return $this->currentIteratorRow >= 0 && $this->currentIteratorRow < $this->getRowCount();
+    }
 
     public function getColumnCount(): int
     {
@@ -181,6 +216,16 @@ class Array2D
         }
 
         return $index;
+    }
+
+    public function getRow(int $row): RowAccessor
+    {
+        return new RowAccessor($this, $row);
+    }
+
+    public function getColumn(int $column): ColumnAccessor
+    {
+        return new ColumnAccessor($this, $column);
     }
 
     public function get(int $row, int $column): mixed

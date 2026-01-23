@@ -15,6 +15,11 @@ class PipedArrayEntry extends AbstractEntry
         return array_map(fn (string $e) => trim($e), $entry);
     }
 
+    public function isValid(string $value): bool
+    {
+        return true;
+    }
+
     public function stringify($entry)
     {
         return strval($entry);

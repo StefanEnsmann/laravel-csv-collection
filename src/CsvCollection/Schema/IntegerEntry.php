@@ -9,11 +9,16 @@ class IntegerEntry extends AbstractEntry
 {
     public function parse(string $value): int
     {
-        if (!is_numeric($value) || !ctype_digit(str_replace('-', '', $value))) {
+        if (!$this->isValid($value)) {
             throw new SchemaValidationFailedException('This schema can only parse integers! Got ' . $value);
         }
 
-        return floatval($value);
+        return intval($value);
+    }
+
+    public function isValid(string $value): bool
+    {
+        return is_numeric($value) && ctype_digit(str_replace('-', '', $value));
     }
 
     public function stringify($entry)

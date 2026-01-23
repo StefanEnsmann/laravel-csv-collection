@@ -9,11 +9,16 @@ class FloatEntry extends AbstractEntry
 {
     public function parse(string $value): float
     {
-        if (!is_numeric($value)) {
+        if (!$this->isValid($value)) {
             throw new SchemaValidationFailedException('This schema can only parse numbers! Got ' . $value);
         }
 
         return floatval($value);
+    }
+
+    public function isValid(string $value): bool
+    {
+        return is_numeric($value);
     }
 
     public function stringify($entry)

@@ -9,6 +9,11 @@ class StringEntry extends AbstractEntry
         return $value;
     }
 
+    protected function isValid(string $value): bool
+    {
+        return true;
+    }
+
     public function stringify($entry)
     {
         return strval($entry);

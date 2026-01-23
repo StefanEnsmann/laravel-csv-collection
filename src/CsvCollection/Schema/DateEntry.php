@@ -12,10 +12,21 @@ class DateEntry extends AbstractEntry
 {
     public function parse(string $value): DateTimeInterface
     {
+        if (!$this->isValid($value)) {
+            throw new SchemaValidationFailedException('This schema can only parse dates! Got ' . $value);
+        }
+
+        return Carbon::parse($value);
+    }
+
+    public function isValid(string $value): bool
+    {
         try {
-            return Carbon::parse($value);
-        } catch (InvalidFormatException $e) {
-            throw new SchemaValidationFailedException('This schema can only parse dates! Got ' . $value, 0, $e);
+            Carbon::parse($value);
+
+            return true;
+        } catch (InvalidFormatException) {
+            return false;
         }
     }
 
